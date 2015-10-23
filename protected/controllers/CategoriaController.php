@@ -1,6 +1,6 @@
 <?php
 
-class EventoController extends Controller
+class CategoriaController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -29,7 +29,7 @@ class EventoController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','getEventsList'),
+				'actions'=>array('index','view','getCategoriesList'),
 				'users'=>array('*'),
 			),
 		);
@@ -47,17 +47,14 @@ class EventoController extends Controller
 	}
 
 	//Rolo
-	public function actionGetEventsList()
+	public function actionGetCategoriesList()
 	{
-		$model = Evento::model()->findAll();
+		$model = Categoria::model()->findAll();
         //$posts=$user->posts(array('condition'=>'status=1'));
 
         $event_array = array_map(create_function('$m',
-            'return $m->getAttributes(array(\'idEvento\',
-            	\'name_event\',\'description_event\',
-            	\'Categoria_idCategoria\',\'Direccion_idDireccion\',
-            	\'Patrocinador_idPatrocinador\',\'date\',
-            	\'hour\'));')
+            'return $m->getAttributes(array(\'idCategoria\',
+            	\'name\',\'description\'));')
         	,$model
         );
 		echo json_encode($event_array);
