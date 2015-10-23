@@ -61,13 +61,11 @@ class PatrocinadorController extends Controller
 		
 		if(isset($user_name) && isset($passwd)){
 			$criteria = new CDbCriteria();
-			$criteria->select = 'Login_user_name, Login_password';
+			$criteria->select = 'idPatrocinador, first_name, last_name, Login_user_name, Login_password, Estado_idEstado' ;
 			$criteria->condition = 'Login_user_name=:user AND Login_password=:pass';
 			$criteria->params = array(':user'=>$user_name, ':pass'=>$passwd);
 			$user = Patrocinador::model()->find($criteria);
 			echo CJSON::encode($user);
 		}
 	}
-
-
 }
