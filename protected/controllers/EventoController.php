@@ -56,8 +56,8 @@ class EventoController extends Controller
             'return $m->getAttributes(array(\'idEvento\',
             	\'name_event\',\'description_event\',
             	\'Categoria_idCategoria\',\'Direccion_idDireccion\',
-            	\'Patrocinador_idPatrocinador\',\'fecha\',
-            	\'hora\'));')
+            	\'Patrocinador_idPatrocinador\',\'date\',
+            	\'hour\'));')
         	,$model
         );
 		echo json_encode($event_array);
