@@ -1,24 +1,28 @@
 <?php
 
 /**
- * This is the model class for table "preferencia".
+ * This is the model class for table "login".
  *
- * The followings are the available columns in table 'preferencia':
- * @property integer $idPreferencia
- * @property string $language
- * @property integer $notification
+ * The followings are the available columns in table 'login':
+ * @property string $user_name
+ * @property string $password
  *
  * The followings are the available model relations:
+ * @property Administrador[] $administradors
+ * @property Administrador[] $administradors1
+ * @property Patrocinador[] $patrocinadors
+ * @property Patrocinador[] $patrocinadors1
  * @property Usuario[] $usuarios
+ * @property Usuario[] $usuarios1
  */
-class Preferencia extends CActiveRecord
+class Login extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'preferencia';
+		return 'login';
 	}
 
 	/**
@@ -29,12 +33,11 @@ class Preferencia extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idPreferencia', 'required'),
-			array('idPreferencia, notification', 'numerical', 'integerOnly'=>true),
-			array('language', 'length', 'max'=>45),
+			array('user_name, password', 'required'),
+			array('user_name, password', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idPreferencia, language, notification', 'safe', 'on'=>'search'),
+			array('user_name, password', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -46,7 +49,12 @@ class Preferencia extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'usuarios' => array(self::HAS_MANY, 'Usuario', 'Preferencia_idPreferencia'),
+			'administradors' => array(self::HAS_MANY, 'Administrador', 'Login_user_name'),
+			'administradors1' => array(self::HAS_MANY, 'Administrador', 'Login_password'),
+			'patrocinadors' => array(self::HAS_MANY, 'Patrocinador', 'Login_user_name'),
+			'patrocinadors1' => array(self::HAS_MANY, 'Patrocinador', 'Login_password'),
+			'usuarios' => array(self::HAS_MANY, 'Usuario', 'Login_user_name'),
+			'usuarios1' => array(self::HAS_MANY, 'Usuario', 'Login_password'),
 		);
 	}
 
@@ -56,9 +64,8 @@ class Preferencia extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idPreferencia' => 'Id Preferencia',
-			'language' => 'Language',
-			'notification' => 'Notification',
+			'user_name' => 'User Name',
+			'password' => 'Password',
 		);
 	}
 
@@ -80,9 +87,8 @@ class Preferencia extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('idPreferencia',$this->idPreferencia);
-		$criteria->compare('language',$this->language,true);
-		$criteria->compare('notification',$this->notification);
+		$criteria->compare('user_name',$this->user_name,true);
+		$criteria->compare('password',$this->password,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -93,7 +99,7 @@ class Preferencia extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Preferencia the static model class
+	 * @return Login the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

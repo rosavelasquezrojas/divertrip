@@ -1,24 +1,20 @@
 <?php
 
 /**
- * This is the model class for table "preferencia".
+ * This is the model class for table "filtro_usuario".
  *
- * The followings are the available columns in table 'preferencia':
- * @property integer $idPreferencia
- * @property string $language
- * @property integer $notification
- *
- * The followings are the available model relations:
- * @property Usuario[] $usuarios
+ * The followings are the available columns in table 'filtro_usuario':
+ * @property integer $Usuario_idUsuario
+ * @property integer $Categoria_idCategoria
  */
-class Preferencia extends CActiveRecord
+class FiltroUsuario extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'preferencia';
+		return 'filtro_usuario';
 	}
 
 	/**
@@ -29,12 +25,11 @@ class Preferencia extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idPreferencia', 'required'),
-			array('idPreferencia, notification', 'numerical', 'integerOnly'=>true),
-			array('language', 'length', 'max'=>45),
+			array('Usuario_idUsuario, Categoria_idCategoria', 'required'),
+			array('Usuario_idUsuario, Categoria_idCategoria', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idPreferencia, language, notification', 'safe', 'on'=>'search'),
+			array('Usuario_idUsuario, Categoria_idCategoria', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -46,7 +41,6 @@ class Preferencia extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'usuarios' => array(self::HAS_MANY, 'Usuario', 'Preferencia_idPreferencia'),
 		);
 	}
 
@@ -56,9 +50,8 @@ class Preferencia extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idPreferencia' => 'Id Preferencia',
-			'language' => 'Language',
-			'notification' => 'Notification',
+			'Usuario_idUsuario' => 'Usuario Id Usuario',
+			'Categoria_idCategoria' => 'Categoria Id Categoria',
 		);
 	}
 
@@ -80,9 +73,8 @@ class Preferencia extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('idPreferencia',$this->idPreferencia);
-		$criteria->compare('language',$this->language,true);
-		$criteria->compare('notification',$this->notification);
+		$criteria->compare('Usuario_idUsuario',$this->Usuario_idUsuario);
+		$criteria->compare('Categoria_idCategoria',$this->Categoria_idCategoria);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -93,7 +85,7 @@ class Preferencia extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Preferencia the static model class
+	 * @return FiltroUsuario the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

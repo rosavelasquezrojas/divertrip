@@ -1,6 +1,6 @@
 <?php
 
-class EventoController extends Controller
+class PatrocinadorController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -29,7 +29,7 @@ class EventoController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','getEventsList'),
+				'actions'=>array('index','view','login'),
 				'users'=>array('*'),
 			),
 		);
@@ -46,22 +46,28 @@ class EventoController extends Controller
 		));
 	}
 
-	//Rolo
-	public function actionGetEventsList()
+	/*public function actionLogin()
 	{
-		$model = Evento::model()->findAll();
-        //$posts=$user->posts(array('condition'=>'status=1'));
-
-        $event_array = array_map(create_function('$m',
-            'return $m->getAttributes(array(\'idEvento\',
-            	\'name_event\',\'description_event\',
-            	\'Categoria_idCategoria\',\'Direccion_idDireccion\',
-            	\'Patrocinador_idPatrocinador\',\'fecha\',
-            	\'hora\'));')
-        	,$model
-        );
-		echo json_encode($event_array);
-		//print_r($event_array);
+		$user = Patrocinador::model()->findAll();
+		$user_array = array_map(create_function('$m',
+            'return $m->getAttributes(array(\'idPatrocinador\',
+            	\'first_name\',\'last_name\',
+            	\'Login_user_name\',\'Login_password\',
+            	\'Estado_idEstado\'));')
+        	,$user);
+        	echo json_encode($user_array);
+	}*/
+	public function actionLogin($user_name, $passwd){
+		
+		if(isset($user_name) && isset($passwd)){
+			$criteria = new CDbCriteria();
+			$criteria->select = 'Login_user_name, Login_password';
+			$criteria->condition = 'Login_user_name=:user AND Login_password=:pass';
+			$criteria->params = array(':user'=>$user_name, ':pass'=>$passwd);
+			$user = Patrocinador::model()->find($criteria);
+			echo CJSON::encode($user);
+		}
 	}
 
-}	
+
+}

@@ -10,6 +10,7 @@
  *
  * The followings are the available model relations:
  * @property Evento[] $eventos
+ * @property Usuario[] $usuarios
  */
 class Categoria extends CActiveRecord
 {
@@ -47,6 +48,7 @@ class Categoria extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'eventos' => array(self::HAS_MANY, 'Evento', 'Categoria_idCategoria'),
+			'usuarios' => array(self::MANY_MANY, 'Usuario', 'filtro_usuario(Categoria_idCategoria, Usuario_idUsuario)'),
 		);
 	}
 
