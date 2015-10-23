@@ -9,11 +9,11 @@
  * @property string $last_name
  * @property string $Login_user_name
  * @property string $Login_password
- * @property integer $Estado_Patrocinador_idEstado_Patrocinador
+ * @property integer $Estado_idEstado
  *
  * The followings are the available model relations:
  * @property Evento[] $eventos
- * @property EstadoPatrocinador $estadoPatrocinadorIdEstadoPatrocinador
+ * @property Estado $estadoIdEstado
  * @property Login $loginUserName
  * @property Login $loginPassword
  */
@@ -35,14 +35,14 @@ class Patrocinador extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idPatrocinador, Login_user_name, Login_password, Estado_Patrocinador_idEstado_Patrocinador', 'required'),
-			array('idPatrocinador, Estado_Patrocinador_idEstado_Patrocinador', 'numerical', 'integerOnly'=>true),
+			array('idPatrocinador, Login_user_name, Login_password, Estado_idEstado', 'required'),
+			array('idPatrocinador, Estado_idEstado', 'numerical', 'integerOnly'=>true),
 			array('first_name', 'length', 'max'=>12),
 			array('last_name', 'length', 'max'=>45),
 			array('Login_user_name, Login_password', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idPatrocinador, first_name, last_name, Login_user_name, Login_password, Estado_Patrocinador_idEstado_Patrocinador', 'safe', 'on'=>'search'),
+			array('idPatrocinador, first_name, last_name, Login_user_name, Login_password, Estado_idEstado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,7 +55,7 @@ class Patrocinador extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'eventos' => array(self::HAS_MANY, 'Evento', 'Patrocinador_idPatrocinador'),
-			'estadoPatrocinadorIdEstadoPatrocinador' => array(self::BELONGS_TO, 'EstadoPatrocinador', 'Estado_Patrocinador_idEstado_Patrocinador'),
+			'estadoIdEstado' => array(self::BELONGS_TO, 'Estado', 'Estado_idEstado'),
 			'loginUserName' => array(self::BELONGS_TO, 'Login', 'Login_user_name'),
 			'loginPassword' => array(self::BELONGS_TO, 'Login', 'Login_password'),
 		);
@@ -72,7 +72,7 @@ class Patrocinador extends CActiveRecord
 			'last_name' => 'Last Name',
 			'Login_user_name' => 'Login User Name',
 			'Login_password' => 'Login Password',
-			'Estado_Patrocinador_idEstado_Patrocinador' => 'Estado Patrocinador Id Estado Patrocinador',
+			'Estado_idEstado' => 'Estado Id Estado',
 		);
 	}
 
@@ -99,7 +99,7 @@ class Patrocinador extends CActiveRecord
 		$criteria->compare('last_name',$this->last_name,true);
 		$criteria->compare('Login_user_name',$this->Login_user_name,true);
 		$criteria->compare('Login_password',$this->Login_password,true);
-		$criteria->compare('Estado_Patrocinador_idEstado_Patrocinador',$this->Estado_Patrocinador_idEstado_Patrocinador);
+		$criteria->compare('Estado_idEstado',$this->Estado_idEstado);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

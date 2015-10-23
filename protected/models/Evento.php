@@ -7,11 +7,12 @@
  * @property integer $idEvento
  * @property string $name_event
  * @property string $description_event
+ * @property string $date
+ * @property string $hour
  * @property integer $Categoria_idCategoria
  * @property integer $Direccion_idDireccion
  * @property integer $Patrocinador_idPatrocinador
- * @property string $fecha
- * @property string $hora
+ * @property string $image
  *
  * The followings are the available model relations:
  * @property Categoria $categoriaIdCategoria
@@ -39,10 +40,10 @@ class Evento extends CActiveRecord
 			array('idEvento, Categoria_idCategoria, Direccion_idDireccion, Patrocinador_idPatrocinador', 'required'),
 			array('idEvento, Categoria_idCategoria, Direccion_idDireccion, Patrocinador_idPatrocinador', 'numerical', 'integerOnly'=>true),
 			array('name_event, description_event', 'length', 'max'=>45),
-			array('fecha, hora', 'safe'),
+			array('date, hour, image', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idEvento, name_event, description_event, Categoria_idCategoria, Direccion_idDireccion, Patrocinador_idPatrocinador, fecha, hora', 'safe', 'on'=>'search'),
+			array('idEvento, name_event, description_event, date, hour, Categoria_idCategoria, Direccion_idDireccion, Patrocinador_idPatrocinador, image', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -69,11 +70,12 @@ class Evento extends CActiveRecord
 			'idEvento' => 'Id Evento',
 			'name_event' => 'Name Event',
 			'description_event' => 'Description Event',
+			'date' => 'Date',
+			'hour' => 'Hour',
 			'Categoria_idCategoria' => 'Categoria Id Categoria',
 			'Direccion_idDireccion' => 'Direccion Id Direccion',
 			'Patrocinador_idPatrocinador' => 'Patrocinador Id Patrocinador',
-			'fecha' => 'Fecha',
-			'hora' => 'Hora',
+			'image' => 'Image',
 		);
 	}
 
@@ -98,11 +100,12 @@ class Evento extends CActiveRecord
 		$criteria->compare('idEvento',$this->idEvento);
 		$criteria->compare('name_event',$this->name_event,true);
 		$criteria->compare('description_event',$this->description_event,true);
+		$criteria->compare('date',$this->date,true);
+		$criteria->compare('hour',$this->hour,true);
 		$criteria->compare('Categoria_idCategoria',$this->Categoria_idCategoria);
 		$criteria->compare('Direccion_idDireccion',$this->Direccion_idDireccion);
 		$criteria->compare('Patrocinador_idPatrocinador',$this->Patrocinador_idPatrocinador);
-		$criteria->compare('fecha',$this->fecha,true);
-		$criteria->compare('hora',$this->hora,true);
+		$criteria->compare('image',$this->image,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
