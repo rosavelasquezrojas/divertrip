@@ -17,6 +17,18 @@ return array(
 		'application.models.*',
 		'application.components.*',
 	),
+	/*
+	 * Habilitar CORS
+	 * Para cualquier controlador *
+	 * Desde dominio *
+	 */
+  'behaviors' => array(
+    array(
+    	'class' => 'application.extensions.CorsBehavior',
+      'route' => '*',
+      'allowOrigin' => '*'
+      ),
+    ),
 
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
