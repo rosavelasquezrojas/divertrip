@@ -31,8 +31,7 @@ class Administrador extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idAdministrador, last_access, Login_user_name, Login_password', 'required'),
-			array('idAdministrador', 'numerical', 'integerOnly'=>true),
+			array('last_access, Login_user_name, Login_password', 'required'),
 			array('Login_user_name, Login_password', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
