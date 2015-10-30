@@ -7,8 +7,7 @@
  * @property integer $idEvento
  * @property string $name_event
  * @property string $description_event
- * @property string $date
- * @property string $hour
+ * @property string $start_event
  * @property integer $Categoria_idCategoria
  * @property integer $Direccion_idDireccion
  * @property integer $Patrocinador_idPatrocinador
@@ -37,13 +36,13 @@ class Evento extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idEvento, Categoria_idCategoria, Direccion_idDireccion, Patrocinador_idPatrocinador', 'required'),
-			array('idEvento, Categoria_idCategoria, Direccion_idDireccion, Patrocinador_idPatrocinador', 'numerical', 'integerOnly'=>true),
+			array('Categoria_idCategoria, Direccion_idDireccion, Patrocinador_idPatrocinador', 'required'),
+			array('Categoria_idCategoria, Direccion_idDireccion, Patrocinador_idPatrocinador', 'numerical', 'integerOnly'=>true),
 			array('name_event, description_event', 'length', 'max'=>45),
-			array('date, hour, image', 'safe'),
+			array('start_event, image', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idEvento, name_event, description_event, date, hour, Categoria_idCategoria, Direccion_idDireccion, Patrocinador_idPatrocinador, image', 'safe', 'on'=>'search'),
+			array('idEvento, name_event, description_event, start_event, Categoria_idCategoria, Direccion_idDireccion, Patrocinador_idPatrocinador, image', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,8 +69,7 @@ class Evento extends CActiveRecord
 			'idEvento' => 'Id Evento',
 			'name_event' => 'Name Event',
 			'description_event' => 'Description Event',
-			'date' => 'Date',
-			'hour' => 'Hour',
+			'start_event' => 'Start Event',
 			'Categoria_idCategoria' => 'Categoria Id Categoria',
 			'Direccion_idDireccion' => 'Direccion Id Direccion',
 			'Patrocinador_idPatrocinador' => 'Patrocinador Id Patrocinador',
@@ -100,8 +98,7 @@ class Evento extends CActiveRecord
 		$criteria->compare('idEvento',$this->idEvento);
 		$criteria->compare('name_event',$this->name_event,true);
 		$criteria->compare('description_event',$this->description_event,true);
-		$criteria->compare('date',$this->date,true);
-		$criteria->compare('hour',$this->hour,true);
+		$criteria->compare('start_event',$this->start_event,true);
 		$criteria->compare('Categoria_idCategoria',$this->Categoria_idCategoria);
 		$criteria->compare('Direccion_idDireccion',$this->Direccion_idDireccion);
 		$criteria->compare('Patrocinador_idPatrocinador',$this->Patrocinador_idPatrocinador);

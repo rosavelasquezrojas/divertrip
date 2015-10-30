@@ -35,8 +35,8 @@ class Patrocinador extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idPatrocinador, Login_user_name, Login_password, Estado_idEstado', 'required'),
-			array('idPatrocinador, Estado_idEstado', 'numerical', 'integerOnly'=>true),
+			array('Login_user_name, Login_password, Estado_idEstado', 'required'),
+			array('Estado_idEstado', 'numerical', 'integerOnly'=>true),
 			array('first_name', 'length', 'max'=>12),
 			array('last_name', 'length', 'max'=>45),
 			array('Login_user_name, Login_password', 'length', 'max'=>10),

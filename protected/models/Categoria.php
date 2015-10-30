@@ -30,8 +30,6 @@ class Categoria extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idCategoria', 'required'),
-			array('idCategoria', 'numerical', 'integerOnly'=>true),
 			array('name, description', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

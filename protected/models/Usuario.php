@@ -14,6 +14,7 @@
  * @property integer $Preferencia_idPreferencia
  *
  * The followings are the available model relations:
+ * @property Categoria[] $categorias
  * @property Login $loginUserName
  * @property Login $loginPassword
  * @property Preferencia $preferenciaIdPreferencia
@@ -37,8 +38,8 @@ class Usuario extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idUsuario, Login_user_name, Login_password, Preferencia_idPreferencia', 'required'),
-			array('idUsuario, Preferencia_idPreferencia', 'numerical', 'integerOnly'=>true),
+			array('Login_user_name, Login_password, Preferencia_idPreferencia', 'required'),
+			array('Preferencia_idPreferencia', 'numerical', 'integerOnly'=>true),
 			array('first_name', 'length', 'max'=>12),
 			array('last_name, latitud, longitud', 'length', 'max'=>45),
 			array('Login_user_name, Login_password', 'length', 'max'=>10),
@@ -56,6 +57,7 @@ class Usuario extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'categorias' => array(self::MANY_MANY, 'Categoria', 'filtro_usuario(Usuario_idUsuario, Categoria_idCategoria)'),
 			'loginUserName' => array(self::BELONGS_TO, 'Login', 'Login_user_name'),
 			'loginPassword' => array(self::BELONGS_TO, 'Login', 'Login_password'),
 			'preferenciaIdPreferencia' => array(self::BELONGS_TO, 'Preferencia', 'Preferencia_idPreferencia'),
