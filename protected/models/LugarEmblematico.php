@@ -32,8 +32,8 @@ class LugarEmblematico extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idLugar_Emblematico, Direccion_idDireccion', 'required'),
-			array('idLugar_Emblematico, Direccion_idDireccion', 'numerical', 'integerOnly'=>true),
+			array('Direccion_idDireccion', 'required'),
+			array('Direccion_idDireccion', 'numerical', 'integerOnly'=>true),
 			array('nombre, description', 'length', 'max'=>45),
 			array('image', 'safe'),
 			// The following rule is used by search().
