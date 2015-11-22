@@ -9,13 +9,14 @@
  * @property string $description_event
  * @property string $start_event
  * @property integer $Categoria_idCategoria
- * @property integer $Direccion_idDireccion
  * @property integer $Patrocinador_idPatrocinador
  * @property string $image
+ * @property string $address
+ * @property string $latitude
+ * @property string $longitude
  *
  * The followings are the available model relations:
  * @property Categoria $categoriaIdCategoria
- * @property Direccion $direccionIdDireccion
  * @property Patrocinador $patrocinadorIdPatrocinador
  */
 class Evento extends CActiveRecord
@@ -36,13 +37,14 @@ class Evento extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('Categoria_idCategoria, Direccion_idDireccion, Patrocinador_idPatrocinador', 'required'),
-			array('Categoria_idCategoria, Direccion_idDireccion, Patrocinador_idPatrocinador', 'numerical', 'integerOnly'=>true),
+			array('Categoria_idCategoria, Patrocinador_idPatrocinador, address, latitude, longitude', 'required'),
+			array('Categoria_idCategoria, Patrocinador_idPatrocinador', 'numerical', 'integerOnly'=>true),
 			array('name_event, description_event', 'length', 'max'=>45),
+			array('address', 'length', 'max'=>100),
 			array('start_event, image', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idEvento, name_event, description_event, start_event, Categoria_idCategoria, Direccion_idDireccion, Patrocinador_idPatrocinador, image', 'safe', 'on'=>'search'),
+			array('idEvento, name_event, description_event, start_event, Categoria_idCategoria, Patrocinador_idPatrocinador, image, address, latitude, longitude', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,7 +57,6 @@ class Evento extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'categoriaIdCategoria' => array(self::BELONGS_TO, 'Categoria', 'Categoria_idCategoria'),
-			'direccionIdDireccion' => array(self::BELONGS_TO, 'Direccion', 'Direccion_idDireccion'),
 			'patrocinadorIdPatrocinador' => array(self::BELONGS_TO, 'Patrocinador', 'Patrocinador_idPatrocinador'),
 		);
 	}
@@ -71,9 +72,11 @@ class Evento extends CActiveRecord
 			'description_event' => 'Description Event',
 			'start_event' => 'Start Event',
 			'Categoria_idCategoria' => 'Categoria Id Categoria',
-			'Direccion_idDireccion' => 'Direccion Id Direccion',
 			'Patrocinador_idPatrocinador' => 'Patrocinador Id Patrocinador',
 			'image' => 'Image',
+			'address' => 'Address',
+			'latitude' => 'Latitude',
+			'longitude' => 'Longitude',
 		);
 	}
 
@@ -100,9 +103,11 @@ class Evento extends CActiveRecord
 		$criteria->compare('description_event',$this->description_event,true);
 		$criteria->compare('start_event',$this->start_event,true);
 		$criteria->compare('Categoria_idCategoria',$this->Categoria_idCategoria);
-		$criteria->compare('Direccion_idDireccion',$this->Direccion_idDireccion);
 		$criteria->compare('Patrocinador_idPatrocinador',$this->Patrocinador_idPatrocinador);
 		$criteria->compare('image',$this->image,true);
+		$criteria->compare('address',$this->address,true);
+		$criteria->compare('latitude',$this->latitude,true);
+		$criteria->compare('longitude',$this->longitude,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

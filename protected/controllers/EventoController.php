@@ -11,13 +11,13 @@ class EventoController extends Controller
 	/**
 	 * @return array action filters
 	 */
-	public function filters()
+	/*public function filters()
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
 			'postOnly + delete', // we only allow deletion via POST request
 		);
-	}
+	}*/
 
 	/**
 	 * Specifies the access control rules.
@@ -62,18 +62,40 @@ class EventoController extends Controller
 	 */
 	public function actionCreate()
     {
-        $model=new Evento;
-        $event['status'] = "error" ;
+        //read the post input (use this technique if you have no post variable name):
+		$post = file_get_contents("php://input");
 
-        if(isset($_POST['Evento']))
-        {
-            $model->attributes=$_POST['Evento'];
-            if($model->save())
-            {
-                $event['status'] = "success" ;
-            }       
-        }
-        echo CJSON::encode($event);
+		//decode json post input as php array:
+		$data = CJSON::decode($post, true);
+
+		//Event is a Yii model:
+		$evento = new Evento();
+
+		//load json data into model:
+		$evento->attributes = $data;
+
+		//this is for responding to the client:
+		$response = array();
+
+		//save model, if that fails, get its validation errors:
+		if ($evento->save() == false) {
+			$response['success'] = false;
+			$response['errors'] = $evento->errors;
+		} else {
+			$response['success'] = true;
+
+			//respond with the saved contact in case the model/db changed any values
+			//$response['evento'] = $evento; 
+		}
+
+		//respond with json content type:
+		header('Content-type:application/json');
+
+
+		//encode the response as json:
+		echo CJSON::encode($response);
+
+		exit();
     }
 
 	/**
@@ -165,8 +187,9 @@ class EventoController extends Controller
         $event_array = array_map(create_function('$m',
             'return $m->getAttributes(array(\'idEvento\',
             	\'name_event\',\'description_event\',
-            	\'Categoria_idCategoria\',\'Direccion_idDireccion\',
-            	\'Patrocinador_idPatrocinador\',\'start_event\',\'image\'));')
+            	\'Categoria_idCategoria\',\'Patrocinador_idPatrocinador\',
+            	\'start_event\',\'image\',\'address\', \'latitude\', 
+            	\'longitude\'));')
         	,$model
         );
 		echo json_encode($event_array);

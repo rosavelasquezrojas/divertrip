@@ -8,10 +8,11 @@
  * @property string $nombre
  * @property string $description
  * @property string $image
- * @property integer $Direccion_idDireccion
+ * @property string $address
+ * @property string $latitude
+ * @property string $longitude
  *
  * The followings are the available model relations:
- * @property Direccion $direccionIdDireccion
  * @property UsuarioBuscaLugar[] $usuarioBuscaLugars
  */
 class LugarEmblematico extends CActiveRecord
@@ -32,13 +33,13 @@ class LugarEmblematico extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('Direccion_idDireccion', 'required'),
-			array('Direccion_idDireccion', 'numerical', 'integerOnly'=>true),
+			array('address, latitude, longitude', 'required'),
 			array('nombre, description', 'length', 'max'=>45),
+			array('address', 'length', 'max'=>100),
 			array('image', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idLugar_Emblematico, nombre, description, image, Direccion_idDireccion', 'safe', 'on'=>'search'),
+			array('idLugar_Emblematico, nombre, description, image, address, latitude, longitude', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,7 +51,6 @@ class LugarEmblematico extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'direccionIdDireccion' => array(self::BELONGS_TO, 'Direccion', 'Direccion_idDireccion'),
 			'usuarioBuscaLugars' => array(self::HAS_MANY, 'UsuarioBuscaLugar', 'Lugar_Emblematico_idLugar_Emblematico'),
 		);
 	}
@@ -65,7 +65,9 @@ class LugarEmblematico extends CActiveRecord
 			'nombre' => 'Nombre',
 			'description' => 'Description',
 			'image' => 'Image',
-			'Direccion_idDireccion' => 'Direccion Id Direccion',
+			'address' => 'Address',
+			'latitude' => 'Latitude',
+			'longitude' => 'Longitude',
 		);
 	}
 
@@ -91,7 +93,9 @@ class LugarEmblematico extends CActiveRecord
 		$criteria->compare('nombre',$this->nombre,true);
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('image',$this->image,true);
-		$criteria->compare('Direccion_idDireccion',$this->Direccion_idDireccion);
+		$criteria->compare('address',$this->address,true);
+		$criteria->compare('latitude',$this->latitude,true);
+		$criteria->compare('longitude',$this->longitude,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
