@@ -7,8 +7,6 @@
  * @property integer $idLugar_Emblematico
  * @property string $nombre
  * @property string $description
- * @property string $image
- * @property string $address
  * @property string $latitude
  * @property string $longitude
  *
@@ -33,13 +31,11 @@ class LugarEmblematico extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('address, latitude, longitude', 'required'),
-			array('nombre, description', 'length', 'max'=>45),
-			array('address', 'length', 'max'=>100),
-			array('image', 'safe'),
+			array('latitude, longitude', 'required'),
+			array('nombre, description', 'length', 'max'=>1000),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idLugar_Emblematico, nombre, description, image, address, latitude, longitude', 'safe', 'on'=>'search'),
+			array('idLugar_Emblematico, nombre, description, latitude, longitude', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,8 +60,6 @@ class LugarEmblematico extends CActiveRecord
 			'idLugar_Emblematico' => 'Id Lugar Emblematico',
 			'nombre' => 'Nombre',
 			'description' => 'Description',
-			'image' => 'Image',
-			'address' => 'Address',
 			'latitude' => 'Latitude',
 			'longitude' => 'Longitude',
 		);
@@ -92,8 +86,6 @@ class LugarEmblematico extends CActiveRecord
 		$criteria->compare('idLugar_Emblematico',$this->idLugar_Emblematico);
 		$criteria->compare('nombre',$this->nombre,true);
 		$criteria->compare('description',$this->description,true);
-		$criteria->compare('image',$this->image,true);
-		$criteria->compare('address',$this->address,true);
 		$criteria->compare('latitude',$this->latitude,true);
 		$criteria->compare('longitude',$this->longitude,true);
 

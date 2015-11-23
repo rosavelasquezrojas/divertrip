@@ -1,6 +1,5 @@
 <?php
-
-class PatrocinadorController extends Controller
+class LoginController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -29,7 +28,7 @@ class PatrocinadorController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','login','setNewPassword'),
+				'actions'=>array('view','setNewPassword'),
 				'users'=>array('*'),
 			),
 		);
@@ -46,26 +45,17 @@ class PatrocinadorController extends Controller
 		));
 	}
 
-	/*public function actionLogin()
-	{
-		$user = Patrocinador::model()->findAll();
-		$user_array = array_map(create_function('$m',
-            'return $m->getAttributes(array(\'idPatrocinador\',
-            	\'first_name\',\'last_name\',
-            	\'Login_user_name\',\'Login_password\',
-            	\'Estado_idEstado\'));')
-        	,$user);
-        	echo json_encode($user_array);
-	}*/
-	public function actionLogin($user_name, $passwd){
-		
-		if(isset($user_name) && isset($passwd)){
-			$criteria = new CDbCriteria();
-			$criteria->select = 'idPatrocinador, first_name, last_name, Login_user_name, Login_password, Estado_idEstado' ;
-			$criteria->condition = 'Login_user_name=:user AND Login_password=:pass';
-			$criteria->params = array(':user'=>$user_name, ':pass'=>$passwd);
-			$user = Patrocinador::model()->find($criteria);
-			echo CJSON::encode($user);
+	public function actionSetNewPassword($id_Patrocinador,$passwd,$newpasswd){
+		$password_array='error';
+		if(!empty($id_Patrocinador) && !(empty($passwd)) && !(empty($newpasswd))){
+			//$model=$this->loadModel($idPatrocinador);
+			$avatar=Login::model()->findByAttributes(array('password'=>$passwd));
+			if(!empty($avatar)){
+				$avatar->attributes=array('password'=>$newpasswd);
+				$avatar->save();
+				$password_array='success';
+			}
 		}
+		echo json_encode($password_array);
 	}
 }

@@ -28,18 +28,7 @@ class EventoController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('create','view', 'getEventsList'),
-				'users'=>array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
-			),
-			array('deny',  // deny all users
+				'actions'=>array('create','view', 'getEventsList','getEventsListByPartner'),
 				'users'=>array('*'),
 			),
 		);
@@ -194,6 +183,31 @@ class EventoController extends Controller
         );
 		echo json_encode($event_array);
 		//print_r($event_array);
+	}
+	
+	//obtiene los eventos segund el patrocinador.
+	public function actionGetEventsListByPartner($id_Patrocinador)
+	{
+		$event_array="false";
+		if(isset($id_Patrocinador)){
+
+			$criteria = new CDbCriteria();
+			/*$criteria->attributes = array(':idEvento,:name_event,:description_event,
+			:Categoria_idCategoria,:Patrocinador_idPatrocinador,:start_event,
+			:image, :address,:latitude,:longitude');*/
+			$criteria->condition = 'Patrocinador_idPatrocinador=:idPatrocinador';
+			$criteria->params = array(':idPatrocinador'=>$id_Patrocinador);
+			$event = Evento::model()->findAll($criteria);
+
+			$event_array = array_map(create_function('$m',
+	            'return $m->getAttributes(array(\'idEvento\',
+	            	\'name_event\',\'description_event\',
+	            	\'Categoria_idCategoria\',\'start_event\',\'image\',
+	            	\'address\', \'latitude\',\'longitude\'));')
+	        	,$event
+	        );
+		}
+		echo json_encode($event_array);
 	}
 	/**
 	 * Performs the AJAX validation.
