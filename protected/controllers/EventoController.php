@@ -29,7 +29,8 @@ class EventoController extends Controller
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('create','view', 'getEventsList',
-					'getEventsListByPartner','viewEvent','deleteEvent'),
+					'getEventsListByPartner','viewEvent','deleteEvent',
+					'viewEventPerson'),
 				'users'=>array('*'),
 			),
 		);
@@ -218,6 +219,21 @@ class EventoController extends Controller
 			idEvento=:id_Evento';
 			$criteria->params = array(':idPatrocinador'=>$id_Patrocinador,
 				':id_Evento'=>$id_Evento);
+			$event = Evento::model()->find($criteria);
+			if(!empty($event)){
+				echo CJSON::encode($event);
+			}else{
+				echo json_encode($event_array);
+			}
+		}
+	}
+
+	public function actionViewEventPerson($id_Evento){
+		$event_array="false";
+		if(isset($id_Evento)){
+			$criteria = new CDbCriteria();
+			$criteria->condition = 'idEvento=:id_Evento';
+			$criteria->params = array(':id_Evento'=>$id_Evento);
 			$event = Evento::model()->find($criteria);
 			if(!empty($event)){
 				echo CJSON::encode($event);
