@@ -28,7 +28,8 @@ class EventoController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('create','view', 'getEventsList','getEventsListByPartner'),
+				'actions'=>array('create','view', 'getEventsList',
+					'getEventsListByPartner','viewEvent','deleteEvent'),
 				'users'=>array('*'),
 			),
 		);
@@ -92,7 +93,7 @@ class EventoController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdate($id)
+	/*public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
 
@@ -109,7 +110,7 @@ class EventoController extends Controller
 		$this->render('update',array(
 			'model'=>$model,
 		));
-	}
+	}*/
 
 	/**
 	 * Deletes a particular model.
@@ -166,8 +167,6 @@ class EventoController extends Controller
 		return $model;
 	}
 	/////////////////////////////////////////////////////////////////////////
-	/*Funciones agregadas de acuerdo al proyecto.*/
-	//Devuelve la lista de eventos disponibles - sin filtro
 	public function actionGetEventsList()
 	{
 		$model = Evento::model()->findAll();
@@ -206,6 +205,41 @@ class EventoController extends Controller
 	            	\'address\', \'latitude\',\'longitude\'));')
 	        	,$event
 	        );
+		}
+		echo json_encode($event_array);
+	}
+
+	public function actionViewEvent($id_Evento,$id_Patrocinador){
+		$event_array="false";
+		if(isset($id_Patrocinador) && isset($id_Evento)){
+
+			$criteria = new CDbCriteria();
+			$criteria->condition = 'Patrocinador_idPatrocinador=:idPatrocinador AND 
+			idEvento=:id_Evento';
+			$criteria->params = array(':idPatrocinador'=>$id_Patrocinador,
+				':id_Evento'=>$id_Evento);
+			$event = Evento::model()->find($criteria);
+			if(!empty($event)){
+				echo CJSON::encode($event);
+			}else{
+				echo json_encode($event_array);
+			}
+		}
+	}
+
+	public function actionDeleteEvent($id_Evento,$id_Patrocinador){
+		$event_array="false";
+		if(isset($id_Patrocinador) && isset($id_Evento)){
+			$criteria = new CDbCriteria();
+			$criteria->condition = 'Patrocinador_idPatrocinador=:idPatrocinador AND 
+			idEvento=:id_Evento';
+			$criteria->params = array(':idPatrocinador'=>$id_Patrocinador,
+				':id_Evento'=>$id_Evento);
+			$event = Evento::model()->find($criteria);
+			if(!empty($event)){
+				$event->delete();
+				$event_array="success";
+			}
 		}
 		echo json_encode($event_array);
 	}
