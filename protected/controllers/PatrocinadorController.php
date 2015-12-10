@@ -68,4 +68,41 @@ class PatrocinadorController extends Controller
 			echo CJSON::encode($user);
 		}
 	}
+
+	public function actionRestorePassword($email) {
+		$emptyResult = '{"email": null}';
+		if(isset($email)) {
+			$criteria = new CDbCriteria();
+			$criteria->select = 'email';
+			$criteria->condition = 'email = :email';
+			$criteria->params = array(':email' => $email);
+			$em = Patrocinador::model()->find($criteria);
+			if($em != null) {
+				/**
+				 * [$random_password Genera una password aleatoria según el tiempo, acortándola a 10 caracteres.]
+				 * @var [string]
+				 */
+				$random_password = substr(md5(time()), 0, 10);
+
+				/* Guardar */
+				$pat = Patrocinador::model()->findByAttributes(array('email' => $email));
+				$log = Login::model()->findByAttributes(array('user_name' => $pat->Login_user_name, 'password' => $pat->Login_password));
+				if(!empty($log)) {
+					$log->attributes = array('password' => $random_password);
+					$log->save();
+				}
+				/* Enviar correo */
+				$mail = new YiiMailer();
+				//$mail->clearLayout();//if layout is already set in config
+				$mail->setFrom(Yii::app()->params['adminEmail'], Yii::app()->name);
+				$mail->setTo($email);
+				$mail->setSubject('Recuperar contraseña');
+				$mail->setBody('Se acaba de restablecer su contraseña. Su contraseña nueva es <b>' . $random_password . '</b>');
+				$mail->send();
+			}
+			echo ($em == null ? $emptyResult : CJSON::encode($em));
+		} else {
+			echo $emptyResult;
+		}
+	}
 }
